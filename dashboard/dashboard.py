@@ -67,6 +67,13 @@ plt.ylabel("Concentration (microgram/m3)")
 plt.legend()
 st.pyplot(fig)
 
+st.subheader("Air Quality Correlation Matrix")
+
+corr_matrix = main_df.select_dtypes(include=['number']).corr()
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
+st.pyplot(fig)
+
 st.subheader("Comparison with WHO Standard")
 fig, ax = plt.subplots(figsize=(6,4))
 ax.bar(["WHO Standard", "Current Data"], [25, avg_pm25], color=["green", "red"])
