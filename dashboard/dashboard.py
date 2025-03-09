@@ -1,13 +1,15 @@
 import streamlit as st
-import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import os
 from babel.numbers import format_currency
 sns.set(style='dark')
 
-all_df = os.path.join(os.path.dirname(__file__), "all_data.csv")
+file_path = os.path.join(os.path.dirname(__file__), "all_data.csv")
+all_df = pd.read_csv(file_path)
+
 
 datetime_columns = ["date"]
 all_df.sort_values(by="date", inplace=True)
@@ -69,6 +71,7 @@ plt.legend()
 st.pyplot(fig)
 
 st.subheader("Air Quality Correlation Matrix")
+
 
 corr_matrix = main_df.select_dtypes(include=['number']).corr()
 fig, ax = plt.subplots(figsize=(8, 6))
