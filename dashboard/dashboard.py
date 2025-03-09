@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -6,7 +7,7 @@ import numpy as np
 from babel.numbers import format_currency
 sns.set(style='dark')
 
-all_df = pd.read_csv("./all_data.csv")
+all_df = os.path.join(os.path.dirname(__file__), "all_data.csv")
 
 datetime_columns = ["date"]
 all_df.sort_values(by="date", inplace=True)
