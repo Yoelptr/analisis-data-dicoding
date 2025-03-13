@@ -66,7 +66,7 @@ plt.legend(title="Stasiun")
 
 st.pyplot(plt)
 
-st.subheader("Rata-rata PM2.5 per Musim di Setiap Stasiun")
+st.subheader("Rata-rata PM2.5 per Musim ")
 pollution_colors = ["green", "yellow", "orange", "red", "purple", "brown"]
 pollution_levels = ["Good", "Moderate", "Unhealthy (Sensitive)", "Unhealthy", "Very Unhealthy", "Dangerous"]
 groupBySeason = main_df.groupby(["Season", "Polusi_Level"]).size().reset_index(name="count")
