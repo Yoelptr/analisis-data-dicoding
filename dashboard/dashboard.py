@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import os
-from babel.numbers import format_currency
-sns.set(style='dark')
+
 
 file_path = os.path.join(os.path.dirname(__file__), "all_data.csv")
 all_df = pd.read_csv(file_path)
@@ -52,6 +51,36 @@ col1.metric(label="Total Days", value=total_days)
 col2.metric(label="Average PM2.5", value=f"{avg_pm25:.2f} µg/m³")
 col3.metric(label="Average PM10", value=f"{avg_pm10:.2f} µg/m³")
 col4.metric(label="Average NO2", value=f"{avg_no2:.2f} µg/m³")
+
+
+st.subheader("Tren PM2.5 di Setiap Stasiun")
+groupByYear = main_df.groupby(["year", "station"])["PM2.5"].mean().reset_index()
+plt.figure(figsize=(12, 6))
+sns.lineplot(data=groupByYear, x="year", y="PM2.5", hue="station", marker="o", linewidth=2)
+plt.title("Tren Rata-rata PM2.5 per Tahun di Setiap Stasiun", fontsize=14)
+plt.xlabel("Tahun", fontsize=12)
+plt.ylabel("PM2.5 (µg/m³)", fontsize=12)
+plt.grid(True)
+plt.legend(title="Stasiun")
+
+
+st.pyplot(plt)
+
+st.subheader("Rata-rata PM2.5 per Musim di Setiap Stasiun")
+pollution_colors = ["green", "yellow", "orange", "red", "purple", "brown"]
+pollution_levels = ["Good", "Moderate", "Unhealthy (Sensitive)", "Unhealthy", "Very Unhealthy", "Dangerous"]
+groupBySeason = main_df.groupby(["Season", "Polusi_Level"]).size().reset_index(name="count")
+plt.figure(figsize=(12, 6))
+ax = sns.barplot(data=groupBySeason, x="Season", y="count", hue="Polusi_Level" ,hue_order=pollution_levels , palette=pollution_colors)
+plt.title("Status Polusi Berdasarkan Musim", fontsize=14)
+plt.xlabel("Musim", fontsize=12)
+plt.ylabel("Jumlah Hari", fontsize=12)
+plt.legend(title="Status Polusi", bbox_to_anchor=(1, 1), loc="upper left")
+plt.grid(axis="y", linestyle="--", alpha=0.7)
+
+st.pyplot(plt)
+
+
 
 st.subheader("PM2.5 Polution")
 groupByYear = main_df.groupby("date").mean(numeric_only=True)
