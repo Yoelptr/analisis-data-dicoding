@@ -23,3 +23,5 @@ pip install -r requirements.txt
 ```
 streamlit run dashboard.py
 ```
+
+https://yoelptr-analisis-data-dicoding-dashboarddashboard-yxnofo.streamlit.app/
