@@ -99,7 +99,7 @@ plt.ylabel("Concentration (microgram/m3)")
 plt.legend()
 st.pyplot(fig)
 
-st.subheader("Which factors most influence the spike in air pollution")
+st.subheader("Faktor apa yang paling mempengaruhi lonjakan polusi udara")
 corr_matrix = main_df.select_dtypes(include=['number']).corr()
 fig, ax = plt.subplots(figsize=(12, 8))
 sns.heatmap(corr_matrix, annot=True,  fmt=".2f", cmap="coolwarm", ax=ax)
