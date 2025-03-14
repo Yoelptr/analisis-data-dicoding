@@ -99,12 +99,26 @@ plt.ylabel("Concentration (microgram/m3)")
 plt.legend()
 st.pyplot(fig)
 
-st.subheader("Air Quality Correlation Matrix")
-
-
+st.subheader("Which factors most influence the spike in air pollution")
 corr_matrix = main_df.select_dtypes(include=['number']).corr()
-fig, ax = plt.subplots(figsize=(8, 6))
-sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
+fig, ax = plt.subplots(figsize=(12, 8))
+sns.heatmap(corr_matrix, annot=True,  fmt=".2f", cmap="coolwarm", ax=ax)
+st.pyplot(fig)
+
+numeric_data = main_df.select_dtypes(include=['number'])
+corr_pm25 = numeric_data.corr()["PM2.5"].drop("PM2.5").sort_values(ascending=False)
+fig, ax = plt.subplots(figsize=(12, 6))
+ax = sns.barplot(x=corr_pm25.index, y=corr_pm25.values, palette="coolwarm")
+for p in ax.patches:
+    ax.annotate(f"{p.get_height():.2f}", 
+                (p.get_x() + p.get_width() / 2, p.get_height()), 
+                ha="center", va="bottom", fontsize=10)
+    
+ax.set_title("Correlation of Factors with PM2.5", fontsize=14, fontweight='bold')
+ax.set_ylabel("Koefisien Korelasi", fontsize=12)
+ax.set_xticklabels(ax.get_xticklabels(), rotation=30, ha='right')
+ax.axhline(0, color="black", linestyle="--", alpha=0.7, linewidth=1)
+ax.grid(axis="y", linestyle="--", alpha=0.5)
 st.pyplot(fig)
 
 st.subheader("Comparison with WHO Standard")
